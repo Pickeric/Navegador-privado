@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Safata d'entrada - eric.silvestre@alumnes.joanpelegri.cat - Correu de Escola Joan Pelegrí</title>
+  <link rel="icon" id="favicon" href="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+:root{--bg:#0a0a10;--bg1:#12121a;--bg2:#1a1a25;--bg3:#24243a;--tx:#eef;--tx2:#88a;--tx3:#556;--bd:rgba(255,255,255,.06);--bdL:rgba(255,255,255,.12);--ac:#7c5aff;--acH:#9b80ff;--acS:rgba(124,90,255,.18);--dn:#ff4466;--ok:#44ffaa;--wn:#ffaa44;--glass:rgba(20,20,35,.55);--glassB:rgba(255,255,255,.08);--glassB2:rgba(255,255,255,.14);--blur:blur(24px) saturate(1.6);--sh:0 8px 32px rgba(0,0,0,.4);--shL:0 2px 8px rgba(0,0,0,.2);--r:16px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box;font-size:inherit}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size:14px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--tx3);border-radius:9px}
+.mi{font-family:'Material Icons Round';font-size:20px;user-select:none}
+
+/* Layout */
+.app{display:flex;height:100vh}
+
+/* Sidebar */
+.sidebar{width:52px;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px;flex-shrink:0;z-index:150;background:var(--glass);border-right:1px solid var(--glassB);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.sb-b{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--tx2);cursor:pointer;border:none;background:transparent;transition:all .2s;position:relative}
+.sb-b:hover{background:var(--glassB2);color:var(--tx);transform:scale(1.08)}
+.sb-b.on{background:var(--acS);color:var(--ac)}
+.sb-b .mi{font-size:20px}
+.sb-sep{flex:1;min-height:6px}
+.sb-b.panic{color:var(--dn)}
+.sb-b.panic:hover{background:rgba(255,68,102,.12)}
+.sb-tip{position:absolute;left:52px;top:50%;transform:translateY(-50%) translateX(-4px);padding:5px 10px;border-radius:8px;font-size:10px;font-weight:600;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s;z-index:200;background:var(--bg3);color:var(--tx);box-shadow:var(--shL)}
+.sb-b:hover .sb-tip{opacity:1;transform:translateY(-50%) translateX(6px)}
+
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+
+/* Tab bar */
+.tbar{display:flex;align-items:center;height:42px;padding:0 8px;gap:2px;background:var(--glass);border-bottom:1px solid var(--glassB);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);flex-shrink:0;z-index:100}
+.tab{display:flex;align-items:center;gap:6px;padding:0 14px;height:32px;border-radius:var(--rs);cursor:pointer;transition:all .15s;background:transparent;border:none;color:var(--tx2);font-family:inherit;font-size:11px;font-weight:500;max-width:180px;min-width:60px;position:relative;flex-shrink:0}
+.tab:hover{background:var(--glassB2);color:var(--tx)}
+.tab.active{background:var(--acS);color:var(--ac)}
+.tab .t-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:left}
+.tab .t-close{font-size:14px;opacity:0;transition:opacity .15s;border:none;background:none;color:inherit;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%}
+.tab:hover .t-close{opacity:1}
+.tab .t-close:hover{background:rgba(255,68,102,.2);color:var(--dn)}
+.tab-new{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:transparent;color:var(--tx3);font-size:18px;transition:all .15s;flex-shrink:0}
+.tab-new:hover{background:var(--glassB2);color:var(--tx)}
+
+/* Nav bar */
+.nav{display:flex;align-items:center;height:44px;padding:0 10px;gap:6px;background:var(--glass);border-bottom:1px solid var(--glassB);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);flex-shrink:0;z-index:99}
+.nav-btn{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:transparent;color:var(--tx3);transition:all .15s}
+.nav-btn:hover{background:var(--glassB2);color:var(--tx)}
+.nav-btn .mi{font-size:18px}
+.url-bar{flex:1;height:32px;border-radius:var(--rs);background:var(--bg1);border:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:8px;transition:border .2s}
+.url-bar:focus-within{border-color:var(--ac)}
+.url-bar input{flex:1;background:none;border:none;outline:none;color:var(--tx);font-family:inherit;font-size:12px;font-weight:400}
+.url-bar input::placeholder{color:var(--tx3)}
+.url-bar .mi{font-size:16px;color:var(--tx3)}
+
+/* Viewport */
+.viewport{flex:1;position:relative;background:var(--bg)}
+.viewport iframe{width:100%;height:100%;border:none;background:#fff;position:absolute;inset:0}
+.viewport iframe.hidden{display:none}
+
+/* Home */
+.home{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;animation:fadeIn .5s;gap:28px}
+.home.hidden{display:none}
+.home-clock{font-size:72px;font-weight:700;letter-spacing:-3px;color:var(--tx);line-height:1}
+.home-date{font-size:14px;color:var(--tx2);font-weight:400;margin-top:-8px}
+.home-greeting{font-size:20px;color:var(--tx2);font-weight:300}
+.home-search{width:min(520px,90vw);height:46px;border-radius:var(--r);background:var(--glass);border:1px solid var(--glassB);display:flex;align-items:center;padding:0 18px;gap:10px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--sh);transition:border .2s}
+.home-search:focus-within{border-color:var(--ac)}
+.home-search input{flex:1;background:none;border:none;outline:none;color:var(--tx);font-family:inherit;font-size:14px;font-weight:400}
+.home-search input::placeholder{color:var(--tx3)}
+.home-search .mi{font-size:20px;color:var(--tx3)}
+.shortcuts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.shortcut{width:72px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .15s}
+.shortcut:hover{transform:translateY(-3px)}
+.shortcut-icon{width:48px;height:48px;border-radius:14px;background:var(--glass);border:1px solid var(--glassB);display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--shL)}
+.shortcut-icon img{width:24px;height:24px;border-radius:4px}
+.shortcut span{font-size:10px;color:var(--tx2);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70px}
+
+/* Loading bar */
+.ld-bar{position:absolute;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--acH));z-index:200;border-radius:0 2px 2px 0;transition:width .3s;display:none}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Panic */
+.panic-overlay{position:fixed;inset:0;background:#fff;z-index:99999;display:none;align-items:center;justify-content:center;flex-direction:column;font-family:Arial,sans-serif;color:#333}
+.panic-overlay.show{display:flex}
+.panic-spinner{width:36px;height:36px;border:3px solid #e0e0e0;border-top-color:#1a73e8;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <button class="sb-b on" onclick="goHome()">
+        <span class="mi">home</span>
+        <span class="sb-tip">Inicio</span>
+      </button>
+      <button class="sb-b" onclick="toggleFullscreen()">
+        <span class="mi">fullscreen</span>
+        <span class="sb-tip">Pantalla completa</span>
+      </button>
+      <div class="sb-sep"></div>
+      <button class="sb-b panic" onclick="panicNow()">
+        <span class="mi">warning</span>
+        <span class="sb-tip">¡PÁNICO!</span>
+      </button>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+      <!-- Tab bar -->
+      <div class="tbar" id="tbar">
+        <div id="tabs"></div>
+        <button class="tab-new" onclick="addTab()" title="Nueva pestaña">
+          <span class="mi" style="font-size:18px">add</span>
+        </button>
+      </div>
+
+      <!-- Nav bar -->
+      <div class="nav">
+        <button class="nav-btn" onclick="navBack()" title="Atrás"><span class="mi">arrow_back</span></button>
+        <button class="nav-btn" onclick="navForward()" title="Adelante"><span class="mi">arrow_forward</span></button>
+        <button class="nav-btn" onclick="navReload()" title="Recargar"><span class="mi">refresh</span></button>
+        <div class="url-bar">
+          <span class="mi">search</span>
+          <input type="text" id="urlInput" placeholder="Busca en Google o escribe una URL…" spellcheck="false" autocomplete="off" onkeydown="if(event.key==='Enter')navigate()">
+        </div>
+        <button class="nav-btn" onclick="goHome()" title="Inicio"><span class="mi">home</span></button>
+      </div>
+
+      <!-- Viewport -->
+      <div class="viewport" id="viewport">
+        <div class="ld-bar" id="ldBar"></div>
+
+        <!-- Home screen -->
+        <div class="home" id="homeScreen">
+          <div class="home-clock" id="clock"></div>
+          <div class="home-date" id="dateEl"></div>
+          <div class="home-greeting" id="greeting"></div>
+          <div class="home-search">
+            <span class="mi">search</span>
+            <input type="text" placeholder="Buscar en Google…" spellcheck="false" autocomplete="off" onkeydown="if(event.key==='Enter'){navigateFromHome(this.value);this.value=''}">
+          </div>
+          <div class="shortcuts">
+            <div class="shortcut" onclick="quickGo('https://www.google.com','Google')">
+              <div class="shortcut-icon"><img src="https://www.google.com/favicon.ico" alt="G"></div>
+              <span>Google</span>
+            </div>
+            <div class="shortcut" onclick="quickGo('https://www.youtube.com','YouTube')">
+              <div class="shortcut-icon"><img src="https://www.youtube.com/favicon.ico" alt="YT"></div>
+              <span>YouTube</span>
+            </div>
+            <div class="shortcut" onclick="quickGo('https://www.wikipedia.org','Wikipedia')">
+              <div class="shortcut-icon"><img src="https://www.wikipedia.org/favicon.ico" alt="W"></div>
+              <span>Wikipedia</span>
+            </div>
+            <div class="shortcut" onclick="quickGo('https://github.com','GitHub')">
+              <div class="shortcut-icon"><img src="https://github.com/favicon.ico" alt="GH"></div>
+              <span>GitHub</span>
+            </div>
+            <div class="shortcut" onclick="quickGo('https://www.reddit.com','Reddit')">
+              <div class="shortcut-icon"><img src="https://www.reddit.com/favicon.ico" alt="R"></div>
+              <span>Reddit</span>
+            </div>
+            <div class="shortcut" onclick="quickGo('https://duckduckgo.com','DuckDuckGo')">
+              <div class="shortcut-icon"><img src="https://duckduckgo.com/favicon.ico" alt="D"></div>
+              <span>DuckDuckGo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panic overlay -->
+  <div class="panic-overlay" id="panicOverlay" onclick="exitPanic()">
+    <div class="panic-spinner"></div>
+    <div style="font-size:14px;color:#555">Cargando…</div>
+  </div>
+
+<script>
+// --- State ---
+let tabs = [];
+let activeId = null;
+let tabCounter = 0;
+
+// --- Clock ---
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+  const opts = {weekday:'long',day:'numeric',month:'long'};
+  const d = now.toLocaleDateString('es-ES',opts);
+  document.getElementById('dateEl').textContent = d.charAt(0).toUpperCase()+d.slice(1);
+  const hr = now.getHours();
+  let g = 'Buenas noches';
+  if(hr>=6&&hr<12) g='Buenos días';
+  else if(hr>=12&&hr<20) g='Buenas tardes';
+  document.getElementById('greeting').textContent = g;
+}
+updateClock();
+setInterval(updateClock,10000);
+
+// --- Tabs ---
+function addTab(url='',title='Nueva pestaña') {
+  const id = ++tabCounter;
+  tabs.push({id,url,title});
+  if(url) {
+    const iframe = document.createElement('iframe');
+    iframe.id = `frame-${id}`;
+    iframe.className = 'hidden';
+    iframe.src = url;
+    document.getElementById('viewport').appendChild(iframe);
+  }
+  switchTab(id);
+  renderTabs();
+  return id;
+}
+
+function renderTabs() {
+  const c = document.getElementById('tabs');
+  c.innerHTML = '';
+  tabs.forEach(t => {
+    const el = document.createElement('button');
+    el.className = `tab${t.id===activeId?' active':''}`;
+    el.onclick = () => switchTab(t.id);
+    
+    const icon = document.createElement('span');
+    icon.className = 'mi';
+    icon.style.fontSize = '14px';
+    icon.textContent = t.url ? 'public' : 'tab';
+    
+    const title = document.createElement('span');
+    title.className = 't-title';
+    title.textContent = t.title;
+    
+    const close = document.createElement('button');
+    close.className = 't-close';
+    close.textContent = '×';
+    close.onclick = (e) => {e.stopPropagation();closeTab(t.id)};
+    
+    el.appendChild(icon);
+    el.appendChild(title);
+    el.appendChild(close);
+    c.appendChild(el);
+  });
+}
+
+function switchTab(id) {
+  activeId = id;
+  const tab = tabs.find(t=>t.id===id);
+  const home = document.getElementById('homeScreen');
+  
+  // Hide all iframes
+  document.querySelectorAll('.viewport iframe').forEach(f=>f.classList.add('hidden'));
+  
+  if(tab && tab.url) {
+    const frame = document.getElementById(`frame-${id}`);
+    if(frame) frame.classList.remove('hidden');
+    home.classList.add('hidden');
+    document.getElementById('urlInput').value = tab.url;
+  } else {
+    home.classList.remove('hidden');
+    document.getElementById('urlInput').value = '';
+  }
+  
+  // Update sidebar home button
+  document.querySelector('.sidebar .sb-b').classList.toggle('on', !tab||!tab.url);
+  
+  renderTabs();
+}
+
+function closeTab(id) {
+  const frame = document.getElementById(`frame-${id}`);
+  if(frame) frame.remove();
+  tabs = tabs.filter(t=>t.id!==id);
+  if(activeId===id) {
+    if(tabs.length) switchTab(tabs[tabs.length-1].id);
+    else addTab();
+  } else {
+    renderTabs();
+  }
+}
+
+function goHome() {
+  const tab = tabs.find(t=>t.id===activeId);
+  if(tab) {
+    tab.url = '';
+    tab.title = 'Nueva pestaña';
+    const frame = document.getElementById(`frame-${activeId}`);
+    if(frame) frame.remove();
+  }
+  switchTab(activeId);
+}
+
+// --- Navigation ---
+function buildUrl(input) {
+  input = input.trim();
+  if(!input) return '';
+  // Prefixes
+  const prefixes = {
+    '!g ':'https://www.google.com/search?q=',
+    '!yt ':'https://www.youtube.com/results?search_query=',
+    '!w ':'https://en.wikipedia.org/wiki/Special:Search?search=',
+    '!d ':'https://duckduckgo.com/?q=',
+    '!gh ':'https://github.com/search?q=',
+    '!r ':'https://www.reddit.com/search/?q='
+  };
+  for(const [p,u] of Object.entries(prefixes)) {
+    if(input.startsWith(p)) return u+encodeURIComponent(input.slice(p.length));
+  }
+  if(!input.includes(' ') && (input.includes('.')||input.includes(':'))) {
+    if(!input.startsWith('http')) input='https://'+input;
+    return input;
+  }
+  return 'https://www.google.com/search?q='+encodeURIComponent(input);
+}
+
+function navigate() {
+  const input = document.getElementById('urlInput').value;
+  const url = buildUrl(input);
+  if(!url) return;
+  loadUrl(url);
+}
+
+function navigateFromHome(val) {
+  const url = buildUrl(val);
+  if(!url) return;
+  document.getElementById('urlInput').value = url;
+  loadUrl(url);
+}
+
+function loadUrl(url) {
+  const tab = tabs.find(t=>t.id===activeId);
+  if(!tab) return;
+  tab.url = url;
+  try{tab.title = new URL(url).hostname.replace('www.','');}catch(e){tab.title=url;}
+  
+  let frame = document.getElementById(`frame-${activeId}`);
+  if(!frame) {
+    frame = document.createElement('iframe');
+    frame.id = `frame-${activeId}`;
+    document.getElementById('viewport').appendChild(frame);
+  }
+  
+  // Loading bar
+  const ld = document.getElementById('ldBar');
+  ld.style.display = 'block';
+  ld.style.width = '0';
+  setTimeout(()=>ld.style.width='60%',50);
+  setTimeout(()=>ld.style.width='90%',600);
+  frame.onload = () => {
+    ld.style.width='100%';
+    setTimeout(()=>{ld.style.display='none';ld.style.width='0'},300);
+  };
+  
+  frame.src = url;
+  switchTab(activeId);
+  document.getElementById('urlInput').value = url;
+}
+
+function quickGo(url,title) {
+  document.getElementById('urlInput').value = url;
+  loadUrl(url);
+}
+
+function navBack() { try{document.getElementById(`frame-${activeId}`).contentWindow.history.back()}catch(e){} }
+function navForward() { try{document.getElementById(`frame-${activeId}`).contentWindow.history.forward()}catch(e){} }
+function navReload() { const f=document.getElementById(`frame-${activeId}`);if(f)f.src=f.src; }
+
+function toggleFullscreen() {
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+// --- Panic ---
+let escCount = 0, escTimer;
+function panicNow() {
+  document.getElementById('panicOverlay').classList.add('show');
+}
+function exitPanic() {
+  document.getElementById('panicOverlay').classList.remove('show');
+}
+
+document.addEventListener('keydown', e => {
+  // Esc x2 panic
+  if(e.key==='Escape') {
+    if(document.getElementById('panicOverlay').classList.contains('show')) {
+      exitPanic(); return;
+    }
+    escCount++;
+    clearTimeout(escTimer);
+    if(escCount>=2) {escCount=0;panicNow();}
+    else escTimer=setTimeout(()=>escCount=0,500);
+    return;
+  }
+  // Ctrl shortcuts
+  if(e.ctrlKey) {
+    if(e.key==='t') {e.preventDefault();addTab();}
+    if(e.key==='w') {e.preventDefault();closeTab(activeId);}
+    if(e.key==='l') {e.preventDefault();document.getElementById('urlInput').focus();document.getElementById('urlInput').select();}
+  }
+  if(e.key==='F11') {e.preventDefault();toggleFullscreen();}
+});
+
+// Init
+addTab();
+</script>
+</body>
+</html>
