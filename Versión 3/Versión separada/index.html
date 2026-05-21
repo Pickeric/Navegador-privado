@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Safata d'entrada - eric.silvestre@alumnes.joanpelegri.cat - Correu de Escola Joan Pelegrí</title>
+  <link rel="icon" id="favicon" href="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Mobile sidebar toggle -->
+<button class="mobile-toggle" onclick="toggleMobileSidebar()"><span class="mi">menu</span></button>
+
+<div class="app" id="app">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button class="sb-b on" onclick="showHome()" id="sb-home"><span class="mi">home</span><span class="sb-tip">Inicio</span></button>
+    <button class="sb-b" onclick="openCmdPalette()" id="sb-cmd"><span class="mi">search</span><span class="sb-tip">Buscar (Ctrl+K)</span></button>
+    <button class="sb-b" onclick="toggleBookmarks()" id="sb-bk"><span class="mi">bookmark</span><span class="sb-tip">Marcadores</span></button>
+    <button class="sb-b" onclick="toggleHistory()" id="sb-hist"><span class="mi">history</span><span class="sb-tip">Historial</span></button>
+    <button class="sb-b" onclick="toggleGames()" id="sb-games"><span class="mi">sports_esports</span><span class="sb-tip">Juegos</span></button>
+    <button class="sb-b" onclick="toggleWidgets()" id="sb-widgets"><span class="mi">widgets</span><span class="sb-tip">Widgets</span></button>
+    <button class="sb-b" onclick="toggleNotifs()" id="sb-notif" style="position:relative"><span class="mi">notifications</span><span class="sb-tip">Notificaciones</span><span class="notif-badge" id="notifBadge">0</span></button>
+    <div class="sb-sep"></div>
+    <button class="sb-b" onclick="togglePanel()" id="sb-settings"><span class="mi">tune</span><span class="sb-tip">Ajustes</span></button>
+    <button class="sb-b" onclick="openInBlank()"><span class="mi">open_in_new</span><span class="sb-tip">Modo oculto</span></button>
+    <button class="sb-b" onclick="toggleFullscreen()"><span class="mi">fullscreen</span><span class="sb-tip">Pantalla completa</span></button>
+    <button class="sb-b panic" onclick="panicMode()"><span class="mi">warning</span><span class="sb-tip">¡PÁNICO!</span></button>
+  </div>
+
+  <div class="main">
+    <!-- Tab bar -->
+    <div class="tbar" id="tbar">
+      <button class="tab-new" onclick="newTab()"><span class="mi">add</span></button>
+    </div>
+    <!-- Nav bar -->
+    <div class="nav" id="navbar" style="position:relative">
+      <button class="nav-b" onclick="goBack()" title="Atrás"><span class="mi">arrow_back</span></button>
+      <button class="nav-b" onclick="goForward()" title="Adelante"><span class="mi">arrow_forward</span></button>
+      <button class="nav-b" onclick="reloadTab()" title="Recargar"><span class="mi">refresh</span></button>
+      <div class="url-bar" style="position:relative">
+        <span class="mi" style="font-size:16px;color:var(--tx3)">search</span>
+        <input class="url-input" id="urlInput" placeholder="Buscar o escribir URL... (Ctrl+K)" autocomplete="off" spellcheck="false">
+        <div class="url-sug" id="urlSug"></div>
+      </div>
+      <button class="nav-b" onclick="bookmarkCurrent()" id="bkBtn" title="Marcar"><span class="mi">bookmark_border</span></button>
+      <button class="nav-b" onclick="toggleFindBar()" title="Buscar en página"><span class="mi">find_in_page</span></button>
+      <button class="nav-b" onclick="zoomIn()" title="Zoom +"><span class="mi">zoom_in</span></button>
+      <button class="nav-b" onclick="zoomOut()" title="Zoom -"><span class="mi">zoom_out</span></button>
+      <div class="nav-more">
+        <button class="nav-b" onclick="toggleNavTools()" title="Más herramientas"><span class="mi">more_vert</span></button>
+        <div class="nav-tools" id="navTools">
+          <button class="nav-tools-i" onclick="toggleSplitView();hideNavTools()"><span class="mi">vertical_split</span>Vista dividida</button>
+          <button class="nav-tools-i" onclick="toggleReaderMode();hideNavTools()"><span class="mi">article</span>Modo lectura</button>
+          <button class="nav-tools-i" onclick="togglePIP();hideNavTools()"><span class="mi">picture_in_picture_alt</span>Picture-in-Picture</button>
+          <div class="nav-tools-sep"></div>
+          <button class="nav-tools-i" onclick="takeScreenshot();hideNavTools()"><span class="mi">photo_camera</span>Captura de pantalla</button>
+          <button class="nav-tools-i" onclick="showQR();hideNavTools()"><span class="mi">qr_code_2</span>Código QR</button>
+          <button class="nav-tools-i" onclick="shareURL();hideNavTools()"><span class="mi">share</span>Compartir URL</button>
+          <button class="nav-tools-i" onclick="addToReadingList();hideNavTools()"><span class="mi">bookmark_add</span>Guardar para leer</button>
+          <div class="nav-tools-sep"></div>
+          <button class="nav-tools-i" onclick="toggleAutoRefresh();hideNavTools()"><span class="mi">update</span>Auto-refresh</button>
+          <button class="nav-tools-i" onclick="toggleDevTools();hideNavTools()"><span class="mi">code</span>Consola JS</button>
+          <button class="nav-tools-i" onclick="openWebPanel();hideNavTools()"><span class="mi">web</span>Panel web lateral</button>
+        </div>
+      </div>
+    </div>
+    <!-- Content -->
+    <div class="content" id="content">
+      <div class="home" id="homePage">
+        <div class="home-clock" id="homeClock">00:00</div>
+        <div class="home-date" id="homeDate"></div>
+        <div class="home-greet" id="homeGreet">Buenas tardes</div>
+        <div class="home-search">
+          <span class="mi">search</span>
+          <input id="homeSearchInput" placeholder="Buscar en la web..." autocomplete="off" spellcheck="false">
+          <span class="search-engine-tag" id="searchEngineTag">GOOGLE</span>
+        </div>
+        <div class="speed-dial" id="speedDial"></div>
+        <div class="recent-g" id="recentGrid"></div>
+      </div>
+      <!-- Find bar -->
+      <div class="find-bar" id="findBar"><input id="findInput" placeholder="Buscar en la página..." oninput="doFind()"><span class="find-count" id="findCount"></span><button class="nav-b" onclick="closeFindBar()" style="width:24px;height:24px"><span class="mi" style="font-size:16px">close</span></button></div>
+      <!-- DevTools -->
+      <div class="devtools" id="devtools"><div class="devtools-head"><span>🔧 Consola</span><button class="nav-b" onclick="toggleDevTools()" style="width:22px;height:22px"><span class="mi" style="font-size:14px">close</span></button></div><div class="devtools-log" id="devLog"></div><div class="devtools-input"><span>›</span><input id="devInput" placeholder="Ejecutar JS..." onkeydown="if(event.key==='Enter')execDev()"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Panel -->
+<div class="panel-overlay" id="settingsPanel" onclick="if(event.target===this)togglePanel()">
+  <div class="panel">
+    <div class="panel-sidebar">
+      <div class="panel-sidebar-head">
+        <h2><span class="mi" style="font-size:22px;color:var(--ac)">tune</span> Ajustes</h2>
+        <p>Configura tu navegador</p>
+      </div>
+      <div class="panel-nav">
+        <button class="panel-nav-b on" onclick="showSettingsPage('general',this)"><span class="mi">home</span>General</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('look',this)"><span class="mi">palette</span>Apariencia</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('search',this)"><span class="mi">travel_explore</span>Buscador</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('disguise',this)"><span class="mi">masks</span>Camuflaje</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('security',this)"><span class="mi">shield</span>Seguridad</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('games',this)"><span class="mi">sports_esports</span>Juegos</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('sessions',this)"><span class="mi">save</span>Sesiones</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('aliases',this)"><span class="mi">link</span>Alias y más</button>
+        <button class="panel-nav-b" onclick="showSettingsPage('keys',this)"><span class="mi">keyboard</span>Atajos</button>
+      </div>
+    </div>
+    <div class="panel-main">
+      <div class="panel-head">
+        <span class="panel-title" id="panelPageTitle">General</span>
+        <button class="panel-close" onclick="togglePanel()"><span class="mi">close</span></button>
+      </div>
+      <div class="panel-body">
+        <!-- Settings pages content will be loaded here by JavaScript -->
+        <div id="pg-general"></div>
+        <div id="pg-look" style="display:none"></div>
+        <div id="pg-search" style="display:none"></div>
+        <div id="pg-disguise" style="display:none"></div>
+        <div id="pg-security" style="display:none"></div>
+        <div id="pg-games" style="display:none"></div>
+        <div id="pg-sessions" style="display:none"></div>
+        <div id="pg-aliases" style="display:none"></div>
+        <div id="pg-keys" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bookmarks Panel -->
+<div class="bk-panel" id="bkPanel">
+  <div class="panel-head"><span class="panel-title">⭐ Marcadores</span><button class="panel-close" onclick="toggleBookmarks()"><span class="mi">close</span></button></div>
+  <div style="flex:1;overflow-y:auto;padding:8px 12px" id="bkList"></div>
+</div>
+
+<!-- History Panel -->
+<div class="hist-panel" id="histPanel">
+  <div class="panel-head"><span class="panel-title">🕐 Historial</span><button class="panel-close" onclick="toggleHistory()"><span class="mi">close</span></button></div>
+  <div style="flex:1;overflow-y:auto;padding:8px 12px" id="histList"></div>
+</div>
+
+<!-- Search Overlay -->
+<div class="sov" id="searchOverlay" onclick="if(event.target===this)toggleSearchOverlay()">
+  <div class="s-panel"><input id="searchTabInput" placeholder="Buscar pestañas..." oninput="renderSearchResults(this.value)"><div class="s-res" id="searchResults"></div></div>
+</div>
+
+<!-- Fake Loading -->
+<div class="dis-c" id="fakeLoading"><span class="mi">hourglass_empty</span><div style="font-size:14px;color:var(--tx2)">Cargando...</div></div>
+
+<!-- Lock Screen -->
+<div class="overlay" id="lockScreen">
+  <div class="modal">
+    <div class="modal-head"><h3>🔒 Navegador bloqueado</h3></div>
+    <div class="modal-body">
+      <input class="s-input" id="lockInputPass" type="password" placeholder="Contraseña" style="width:100%;text-align:left" onkeydown="if(event.key==='Enter')unlockApp()">
+      <div class="lock-attempts" id="lockAttempts"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ac" onclick="unlockApp()">Desbloquear</button></div>
+  </div>
+</div>
+
+<!-- WIDGETS -->
+<div class="wg" id="wg-notes" style="top:100px;left:100px;width:280px"><div class="wg-head" onmousedown="startDrag(event,'wg-notes')"><span class="wg-title">📝 Notas</span><button class="wg-close" onclick="hideWidget('wg-notes')">✕</button></div><div class="wg-body"><textarea class="note-area" id="noteText" placeholder="Escribe aquí tus notas..." oninput="saveNotes()"></textarea></div></div>
+
+<div class="wg" id="wg-tasks" style="top:100px;left:400px;width:280px"><div class="wg-head" onmousedown="startDrag(event,'wg-tasks')"><span class="wg-title">✅ Tareas</span><button class="wg-close" onclick="hideWidget('wg-tasks')">✕</button></div><div class="wg-body"><div class="task-list" id="taskList"></div></div></div>
+
+<div class="wg" id="wg-pomo" style="top:100px;left:700px;width:240px"><div class="wg-head" onmousedown="startDrag(event,'wg-pomo')"><span class="wg-title">⏱️ Pomodoro</span><button class="wg-close" onclick="hideWidget('wg-pomo')">✕</button></div><div class="wg-body"><div class="pomo-display" id="pomoDisplay">25:00</div></div></div>
+
+<div class="wg" id="wg-calc" style="top:100px;left:300px;width:220px"><div class="wg-head" onmousedown="startDrag(event,'wg-calc')"><span class="wg-title">🧮 Calculadora</span><button class="wg-close" onclick="hideWidget('wg-calc')">✕</button></div><div class="wg-body"><div class="calc-display" id="calcDisplay">0</div></div></div>
+
+<div class="wg" id="wg-clock" style="top:120px;left:550px;width:200px"><div class="wg-head" onmousedown="startDrag(event,'wg-clock')"><span class="wg-title">🕐 Reloj</span><button class="wg-close" onclick="hideWidget('wg-clock')">✕</button></div><div class="wg-body" style="display:flex;justify-content:center;padding:16px"><div class="analog-clock" id="analogClock"><div class="clock-dot"></div><div class="clock-hand clock-h" id="clockH"></div><div class="clock-hand clock-m" id="clockM"></div><div class="clock-hand clock-s" id="clockS"></div></div></div></div>
+
+<div class="wg" id="wg-cal" style="top:100px;left:200px;width:260px"><div class="wg-head" onmousedown="startDrag(event,'wg-cal')"><span class="wg-title">📅 Calendario</span><button class="wg-close" onclick="hideWidget('wg-cal')">✕</button></div><div class="wg-body"><div class="cal-nav"><button class="nav-b" onclick="calNav(-1)"><span class="mi" style="font-size:16px">chevron_left</span></button><span id="calTitle"></span><button class="nav-b" onclick="calNav(1)"><span class="mi" style="font-size:16px">chevron_right</span></button></div><div class="cal-grid" id="calGrid"></div></div></div>
+
+<div class="wg" id="wg-dice" style="top:150px;left:450px;width:200px"><div class="wg-head" onmousedown="startDrag(event,'wg-dice')"><span class="wg-title">🎲 Dado</span><button class="wg-close" onclick="hideWidget('wg-dice')">✕</button></div><div class="wg-body"><div class="dice-result" id="diceResult">🎲</div></div></div>
+
+<div class="wg" id="wg-progress" style="top:300px;left:100px;width:260px"><div class="wg-head" onmousedown="startDrag(event,'wg-progress')"><span class="wg-title">📊 Progreso</span><button class="wg-close" onclick="hideWidget('wg-progress')">✕</button></div><div class="wg-body"><span id="progressText" style="font-size:24px;font-weight:700;color:var(--ac)">0%</span></div></div>
+
+<div class="wg" id="wg-weather" style="top:300px;left:400px;width:220px"><div class="wg-head" onmousedown="startDrag(event,'wg-weather')"><span class="wg-title">🌤️ Clima</span><button class="wg-close" onclick="hideWidget('wg-weather')">✕</button></div><div class="wg-body"><div class="weather-info" id="weatherInfo"></div></div></div>
+
+<!-- GAMES OVERLAY -->
+<div class="games-ov" id="gamesOverlay" onclick="if(event.target===this)toggleGames()">
+  <div class="games-container">
+    <div class="games-head">
+      <h3>🎮 Juegos</h3>
+      <button class="panel-close" onclick="toggleGames()"><span class="mi">close</span></button>
+    </div>
+    <div class="games-body">
+      <div class="games-menu">
+        <button class="gm-btn on" onclick="selectGame('snake',this)"><span class="gm-emoji">🐍</span>Snake</button>
+        <button class="gm-btn" onclick="selectGame('2048',this)"><span class="gm-emoji">🔢</span>2048</button>
+        <button class="gm-btn" onclick="selectGame('memory',this)"><span class="gm-emoji">🧠</span>Memory</button>
+      </div>
+      <div class="games-view" id="gamesView"></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-ov" id="cmdPalette" onclick="if(event.target===this)closeCmdPalette()">
+  <div class="cmd-box"><input class="cmd-input" id="cmdInput" placeholder="Escribe un comando..." autocomplete="off"><div class="cmd-results" id="cmdResults"></div></div>
+</div>
+
+<!-- READER MODE -->
+<div class="reader-ov" id="readerOv">
+  <div class="reader-toolbar"><button class="btn btn-g" onclick="closeReader()">Cerrar</button></div>
+  <div class="reader-content" id="readerContent"></div>
+</div>
+
+<!-- QR MODAL -->
+<div class="overlay" id="qrModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal"><div class="modal-head"><h3>📱 Código QR</h3></div><div class="qr-modal" id="qrBody"></div></div>
+</div>
+
+<!-- PIP -->
+<div class="pip-float" id="pipFloat"><button class="pip-close" onclick="closePIP()">✕</button><iframe id="pipFrame" src="about:blank"></iframe></div>
+
+<!-- NOTIFICATIONS PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="panel-head"><span class="panel-title">🔔 Notificaciones</span></div>
+  <div style="flex:1;overflow-y:auto" id="notifList"></div>
+</div>
+
+<!-- WEB PANEL -->
+<div class="web-panel" id="webPanel">
+  <iframe id="webPanelFrame" src="about:blank"></iframe>
+</div>
+
+<div class="toast" id="toast" style="display:none"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
