@@ -29,8 +29,8 @@ async function encryptData(obj,key=ENC_KEY){
   try{
     const pw = new TextEncoder().encode(key);
     const salt = crypto.getRandomValues(new Uint8Array(16));
-    const k = await crypto.subtle.importKey('raw',pw,'PBKDF2',false,['deriveKey']);
-    const dk = await crypto.subtle.deriveKey({name:'PBKDF2',salt,salt,iterations:100000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},true,['encrypt']);
+    const k = await crypto.subtle.importKey('raw', pw, {name: 'PBKDF2'}, false, ['deriveKey']);
+    const dk = await crypto.subtle.deriveKey({name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'}, k, {name: 'AES-GCM', length: 256}, true, ['encrypt']);
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const enc = await crypto.subtle.encrypt({name:'AES-GCM',iv},dk,new TextEncoder().encode(txt));
     const blob = new Uint8Array(enc);
@@ -50,8 +50,8 @@ async function decryptData(str,key=ENC_KEY){
     const iv = arr.slice(16,28);
     const data = arr.slice(28);
     const pw = new TextEncoder().encode(key);
-    const k = await crypto.subtle.importKey('raw',pw,'PBKDF2',false,['deriveKey']);
-    const dk = await crypto.subtle.deriveKey({name:'PBKDF2',salt,salt,iterations:100000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},true,['decrypt']);
+    const k = await crypto.subtle.importKey('raw', pw, {name: 'PBKDF2'}, false, ['deriveKey']);
+    const dk = await crypto.subtle.deriveKey({name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'}, k, {name: 'AES-GCM', length: 256}, true, ['decrypt']);
     const dec = await crypto.subtle.decrypt({name:'AES-GCM',iv},dk,data);
     return new TextDecoder().decode(dec);
   }catch(e){
